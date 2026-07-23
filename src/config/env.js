@@ -36,6 +36,22 @@ const parseUrl = (value) => {
   }
 };
 
+const parseDatabaseUrl = (value) => {
+  try {
+    const databaseUrl = new URL(value);
+
+    if (!["postgres:", "postgresql:"].includes(databaseUrl.protocol)) {
+      throw new Error();
+    }
+
+    return value;
+  } catch {
+    throw new Error(
+      "Environment configuration error: DATABASE_URL must be a valid PostgreSQL URL.",
+    );
+  }
+};
+
 const env = Object.freeze({
   nodeEnv: requireValue("NODE_ENV", "development"),
   port: parsePort(requireValue("PORT", "3000")),
@@ -44,6 +60,7 @@ const env = Object.freeze({
     "Appointment Recovery Platform",
   ),
   appUrl: parseUrl(requireValue("APP_URL")),
+  databaseUrl: parseDatabaseUrl(requireValue("DATABASE_URL")),
 });
 
 module.exports = env;
