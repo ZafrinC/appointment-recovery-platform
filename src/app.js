@@ -1,16 +1,17 @@
 const express = require("express");
+const routes = require("./routes");
+const notFound = require("./middlewares/notFound");
+const errorHandler = require("./middlewares/errorHandler");
 
 const app = express();
 
-// Middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Health Route
-app.get("/health", (req, res) => {
-  res.json({
-    status: "ok",
-    message: "Appointment Recovery System is running",
-  });
-});
+app.use("/", routes);
+app.use("/api/v1", routes);
+
+app.use(notFound);
+app.use(errorHandler);
 
 module.exports = app;
