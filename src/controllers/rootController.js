@@ -1,11 +1,11 @@
 const ApiResponse = require("../utils/ApiResponse");
 
-const getHealth = (req, res) => {
+const getRoot = (req, res) => {
   res.json(
     new ApiResponse(
       {
-        status: "healthy",
-        uptime: process.uptime(),
+        service: "Appointment Recovery Platform",
+        status: "running",
       },
       req.id,
     ),
@@ -13,5 +13,5 @@ const getHealth = (req, res) => {
 };
 
 module.exports = {
-  getHealth,
+  getRoot,
 };
